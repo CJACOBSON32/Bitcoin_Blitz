@@ -1,4 +1,6 @@
 package info.cs4518.bitcoinblitz.upgrades
 
-class Upgrade {
+abstract class Upgrade() {
+    abstract var id: Int
+    abstract var numOwned: Int
 }
