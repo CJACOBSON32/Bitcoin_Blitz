@@ -1,11 +1,6 @@
 package info.cs4518.bitcoinblitz.upgrades
 
-class OverclockUpgrade : Upgrade {
-    override var id: Int
-    override var numOwned: Int
+class OverclockUpgrade(override var id: Int,
+                       override var numOwned: Int) : Upgrade() {
 
-    constructor(id: Int, numOwned: Int) {
-        this.id = id
-        this.numOwned = numOwned
-    }
 }

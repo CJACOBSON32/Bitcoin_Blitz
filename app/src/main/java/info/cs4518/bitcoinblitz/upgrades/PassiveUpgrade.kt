@@ -1,11 +1,6 @@
 package info.cs4518.bitcoinblitz.upgrades
 
-class PassiveUpgrade : Upgrade {
-    override var id: Int
-    override var numOwned: Int
+class PassiveUpgrade(override var id: Int,
+                     override var numOwned: Int) : Upgrade() {
 
-    constructor(id: Int, numOwned: Int) {
-        this.id = id
-        this.numOwned = numOwned
-    }
 }
