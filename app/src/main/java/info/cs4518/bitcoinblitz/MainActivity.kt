@@ -28,14 +28,14 @@ class MainActivity : AppCompatActivity() {
 
 //		clickCounterTextview = findViewById(R.id.player_click_counter)
 		mainView = findViewById(R.id.main_view)
-		bitcoinPerSecondTextview = findViewById(R.id.bitcoin_per_second_view)
-		walletTextView = findViewById(R.id.wallet_view)
+//		bitcoinPerSecondTextview = findViewById(R.id.bitcoin_per_second_view)
+//		walletTextView = findViewById(R.id.wallet_view)
 
 		viewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
 
 		//clickCounterTextview.text = viewModel.clickCounter.toString()
-		bitcoinPerSecondTextview.text = viewModel.bitcoinPerSecond.toString()
-		walletTextView.text = viewModel.wallet.toString()
+//		bitcoinPerSecondTextview.text = viewModel.bitcoinPerSecond.toString()
+//		walletTextView.text = viewModel.wallet.toString()
 	}
 
 /*
