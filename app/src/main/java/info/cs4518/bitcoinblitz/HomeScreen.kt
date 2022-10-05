@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.ViewModelProvider
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,12 +24,34 @@ class HomeScreen : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var mainView: ConstraintLayout
+    //private lateinit var clickCounterTextview: TextView
+    private lateinit var bitcoinPerSecondTextview: TextView
+    private lateinit var walletTextView: TextView
+
+    lateinit var viewModel: PlayerViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+		bitcoinPerSecondTextview = requireView().findViewById(R.id.bitcoin_per_second_view)
+		walletTextView = requireView().findViewById(R.id.wallet_view)
+
+        viewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
+
+        //clickCounterTextview.text = viewModel.clickCounter.toString()
+		bitcoinPerSecondTextview.text = viewModel.bitcoinPerSecond.toString()
+		walletTextView.text = viewModel.wallet.toString()
+    }
+
+
+    fun tapBitcoin(view: View?) {
+        viewModel.wallet += viewModel.clickPotency
+        walletTextView.text = viewModel.wallet.toString()
     }
 
     override fun onCreateView(
