@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
+<resources>
+<!--    Intern, Associate, Manager, Director, Vice President, President, CEO    -->
+    <array name="Active">
+        <item id="1" name="Intern" cost="100" description=""/>
+        <item id="2" name="Associate" cost="300" description=""/>
+    </array>
+    <array name="Passive">
+
+    </array>
+    <array name="Overclock">
+
+    </array>
 
 </resources>
