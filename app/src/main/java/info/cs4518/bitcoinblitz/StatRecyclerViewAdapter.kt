@@ -14,37 +14,37 @@ import info.cs4518.bitcoinblitz.databinding.FragmentStatScreenBinding
  * TODO: Replace the implementation with code for your data type.
  */
 class StatRecyclerViewAdapter(
-    private val values: List<PlaceholderItem>
+	private val values: List<PlaceholderItem>
 ) : RecyclerView.Adapter<StatRecyclerViewAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        return ViewHolder(
-            FragmentStatScreenBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+		return ViewHolder(
+			FragmentStatScreenBinding.inflate(
+				LayoutInflater.from(parent.context),
+				parent,
+				false
+			)
+		)
 
-    }
+	}
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
-    }
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+		val item = values[position]
+		holder.idView.text = item.id
+		holder.contentView.text = item.content
+	}
 
-    override fun getItemCount(): Int = values.size
+	override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(binding: FragmentStatScreenBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
+	inner class ViewHolder(binding: FragmentStatScreenBinding) :
+		RecyclerView.ViewHolder(binding.root) {
+		val idView: TextView = binding.itemNumber
+		val contentView: TextView = binding.content
 
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
-        }
-    }
+		override fun toString(): String {
+			return super.toString() + " '" + contentView.text + "'"
+		}
+	}
 
 }
