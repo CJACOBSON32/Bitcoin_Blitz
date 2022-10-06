@@ -13,6 +13,8 @@ class PlayerViewModel : ViewModel() {
 
     var wallet: Int = 0
 
+
+
     //live mutable data
 }
 
