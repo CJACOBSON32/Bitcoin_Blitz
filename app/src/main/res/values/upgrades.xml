@@ -2,14 +2,44 @@
 <resources>
 <!--    Intern, Associate, Manager, Director, Vice President, President, CEO    -->
     <array name="Active">
-        <item id="1" name="Intern" cost="100" description=""/>
-        <item id="2" name="Associate" cost="300" description=""/>
+        <item id="1" name="Intern" cost="10" description="Someone to do you're busy work."/>
+        <item id="2" name="Associate" cost="300" description="Clocking in from 9-5"/>
+        <item id="3" name="Manager" cost="6000" description=
+            "Going to really miss the hard work you do"/>
+        <item id="4" name="Director" cost="11000"
+            description="Submitting your ideas tomorrow"/>
+        <item id="5" name="Vice President" cost="190000"
+            description="Arriving late and leaving early"/>
+        <item id="6" name="President" cost="3200000" description=
+            "World's best boss!"/>
+        <item id="7" name="CEO" cost="53000000" description="Money moves"/>
     </array>
     <array name="Passive">
-
+        <item id="8" name="UTX 5050" cost="10" description="Potato powered"/>
+        <item id="9" name="UTX 5060" cost="900" description="Handles 720p"/>
+        <item id="10" name="UTX 5070" cost="2500" description="Mine diamonds"/>
+        <item id="11" name="UTX 5080" cost="7300" description="Shaders support"/>
+        <item id="12" name="UTX 5090" cost="28000" description="Raytracing support"/>
+        <item id="13" name="UTX 6050" cost="96000" description="Diamond hands"/>
+        <item id="14" name="UTX 6060" cost="530000" description="Holding on tight"/>
+        <item id="15" name="UTX 6070" cost="1870000" description="Astronomical"/>
+        <item id="16" name="UTX 6080" cost="10000000" description="To the moon!"/>
+        <item id="17" name="UTX 6090" cost="420420420" description="To infinity and beyond!"/>
     </array>
     <array name="Overclock">
-
+        <item id="18" name="Fan Cooling" cost="1000" description="LED fans"/>
+        <item id="19" name="Water Cooling" cost="100000" description="Next level cooling"/>
+        <item id="20" name="Liquid Nitrogen Cooling" cost="10000000" description="Ice cold"/>
+        <item id="21" name="Dedicated Capacitors" cost="5000" description=
+            "Let's power up!"/>
+        <item id="22" name="Field of Wind Turbines" cost="500000" description=
+            "Thunder, Thunder, Lightning and the Thunder"/>
+        <item id="23" name="Dedicated Oil Power Plant" cost="50000000" description=
+            "Helter Skelter in a Summer Swelter"/>
+        <item id="24" name="Dedicated Nuclear Facility" cost="500000000" description=
+            "Radioactive! Radioactive!"/>
+        <item id="25" name="Fission Reactor" cost="9999999999" description=
+            "You know it's not the same as it was"/>
     </array>
 
 </resources>
