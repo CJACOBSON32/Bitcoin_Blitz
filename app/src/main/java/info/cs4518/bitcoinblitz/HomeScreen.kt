@@ -33,19 +33,19 @@ class HomeScreen : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-		bitcoinPerSecondTextview = requireView().findViewById(R.id.bitcoin_per_second_view)
-		walletTextView = requireView().findViewById(R.id.wallet_view)
+//        arguments?.let {
+//            param1 = it.getString(ARG_PARAM1)
+//            param2 = it.getString(ARG_PARAM2)
+//        }
 
         viewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
 
+//        bitcoinPerSecondTextview = requireView().findViewById(R.id.bitcoin_per_second_view)
+//        walletTextView = requireView().findViewById(R.id.wallet_view)
+
         //clickCounterTextview.text = viewModel.clickCounter.toString()
-		bitcoinPerSecondTextview.text = viewModel.bitcoinPerSecond.toString()
-		walletTextView.text = viewModel.wallet.toString()
+//		bitcoinPerSecondTextview.text = viewModel.bitcoinPerSecond.toString()
+//		walletTextView.text = viewModel.wallet.toString()
     }
 
 
@@ -73,7 +73,7 @@ class HomeScreen : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             HomeScreen().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
