@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
@@ -37,32 +38,20 @@ class MainActivity : AppCompatActivity() {
 
 		navigationBar.setOnItemSelectedListener { item ->
 			when (item.itemId) {
-				R.id.home_button -> {
-					supportFragmentManager.beginTransaction()
-						.replace(R.id.currentView, HomeScreen.newInstance())
-						.commit()
-					true
-				}
-				R.id.stats_button -> {
-					supportFragmentManager.beginTransaction()
-						.replace(R.id.currentView, StatScreen.newInstance(1))
-						.commit()
-					true
-				}
-				R.id.store_button -> {
-					supportFragmentManager.beginTransaction()
-						.replace(R.id.currentView, StoreScreen.newInstance(1))
-						.commit()
-					true
-				}
+				R.id.home_button -> switchScreen(HomeScreen.newInstance())
+				R.id.stats_button -> switchScreen(StatScreen.newInstance(1))
+				R.id.store_button -> switchScreen(StoreScreen.newInstance(1))
 				else -> false
 			}
 
-
+			true
 		}
+	}
 
-//		clickCounterTextview = findViewById(R.id.player_click_counter)
-		// TODO: Move over to Home Fragment
+	private fun switchScreen(fragment: Fragment) {
+		supportFragmentManager.beginTransaction()
+			.replace(R.id.currentView, fragment)
+			.commit()
 	}
 
 /*
