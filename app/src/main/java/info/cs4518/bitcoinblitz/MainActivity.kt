@@ -28,15 +28,19 @@ class MainActivity : AppCompatActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_main)
-
 		binding = ActivityMainBinding.inflate(layoutInflater)
-		navigationBar = findViewById(R.id.bottom_navigation)
+
+		val view = binding.root
+		setContentView(view)
+
+//		navigationBar = findViewById(R.id.bottom_navigation)
+		navigationBar = binding.bottomNavigation
 		fragmentView = binding.currentView
 
 		navigationBar.selectedItemId = R.id.home_button
 
 		navigationBar.setOnItemSelectedListener { item ->
+
 			when (item.itemId) {
 				R.id.home_button -> switchScreen(HomeScreen.newInstance())
 				R.id.stats_button -> switchScreen(StatScreen.newInstance(1))
