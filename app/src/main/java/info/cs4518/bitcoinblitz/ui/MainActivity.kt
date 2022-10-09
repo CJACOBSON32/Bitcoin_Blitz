@@ -1,19 +1,15 @@
-package info.cs4518.bitcoinblitz
+package info.cs4518.bitcoinblitz.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.databinding.ActivityMainBinding
+import info.cs4518.bitcoinblitz.ui.shop.StoreScreen
+import info.cs4518.bitcoinblitz.ui.stats.StatScreen
 
 val TAG = "MAINACTIVITY"
 
@@ -29,18 +25,15 @@ class MainActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		binding = ActivityMainBinding.inflate(layoutInflater)
-
 		val view = binding.root
 		setContentView(view)
 
-//		navigationBar = findViewById(R.id.bottom_navigation)
 		navigationBar = binding.bottomNavigation
 		fragmentView = binding.currentView
 
+		// Setup bottom navigation bar links
 		navigationBar.selectedItemId = R.id.home_button
-
 		navigationBar.setOnItemSelectedListener { item ->
-
 			when (item.itemId) {
 				R.id.home_button -> switchScreen(HomeScreen.newInstance())
 				R.id.stats_button -> switchScreen(StatScreen.newInstance(1))

@@ -1,26 +1,25 @@
-package info.cs4518.bitcoinblitz
+package info.cs4518.bitcoinblitz.ui.stats
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
 import info.cs4518.bitcoinblitz.placeholder.PlaceholderContent.PlaceholderItem
-import info.cs4518.bitcoinblitz.databinding.FragmentStoreScreenBinding
+import info.cs4518.bitcoinblitz.databinding.FragmentStatScreenBinding
 
 /**
  * [RecyclerView.Adapter] that can display a [PlaceholderItem].
  * TODO: Replace the implementation with code for your data type.
  */
-class StoreItemRecyclerViewAdapter(
+class StatRecyclerViewAdapter(
 	private val values: List<PlaceholderItem>
-) : RecyclerView.Adapter<StoreItemRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<StatRecyclerViewAdapter.ViewHolder>() {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
 		return ViewHolder(
-			FragmentStoreScreenBinding.inflate(
+			FragmentStatScreenBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
 				false
@@ -37,7 +36,7 @@ class StoreItemRecyclerViewAdapter(
 
 	override fun getItemCount(): Int = values.size
 
-	inner class ViewHolder(binding: FragmentStoreScreenBinding) :
+	inner class ViewHolder(binding: FragmentStatScreenBinding) :
 		RecyclerView.ViewHolder(binding.root) {
 		val idView: TextView = binding.itemNumber
 		val contentView: TextView = binding.content

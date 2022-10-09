@@ -1,4 +1,4 @@
-package info.cs4518.bitcoinblitz
+package info.cs4518.bitcoinblitz.ui.stats
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
  */
-class StoreScreen : Fragment() {
+class StatScreen : Fragment() {
 
 	private var columnCount = 1
 
@@ -29,7 +30,7 @@ class StoreScreen : Fragment() {
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		val view = inflater.inflate(R.layout.fragment_store_screen_list, container, false)
+		val view = inflater.inflate(R.layout.fragment_stat_screen_list, container, false)
 
 		// Set the adapter
 		if (view is RecyclerView) {
@@ -38,7 +39,7 @@ class StoreScreen : Fragment() {
 					columnCount <= 1 -> LinearLayoutManager(context)
 					else -> GridLayoutManager(context, columnCount)
 				}
-				adapter = StoreItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
+				adapter = StatRecyclerViewAdapter(PlaceholderContent.ITEMS)
 			}
 		}
 		return view
@@ -52,7 +53,7 @@ class StoreScreen : Fragment() {
 		// TODO: Customize parameter initialization
 		@JvmStatic
 		fun newInstance(columnCount: Int) =
-			StoreScreen().apply {
+			StatScreen().apply {
 				arguments = Bundle().apply {
 					putInt(ARG_COLUMN_COUNT, columnCount)
 				}
