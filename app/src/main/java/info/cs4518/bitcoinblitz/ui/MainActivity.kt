@@ -10,6 +10,8 @@ import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.databinding.ActivityMainBinding
 import info.cs4518.bitcoinblitz.ui.shop.StoreScreen
 import info.cs4518.bitcoinblitz.ui.stats.StatScreen
+import info.cs4518.bitcoinblitz.workmanager.IncomeWorker
+import info.cs4518.bitcoinblitz.workmanager.IncomeWorkerScheduler
 
 val TAG = "MAINACTIVITY"
 
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 		val view = binding.root
 		setContentView(view)
 
+		startWorkManager()
+
 		navigationBar = binding.bottomNavigation
 		fragmentView = binding.currentView
 
@@ -45,19 +49,14 @@ class MainActivity : AppCompatActivity() {
 		}
 	}
 
+
 	private fun switchScreen(fragment: Fragment) {
 		supportFragmentManager.beginTransaction()
 			.replace(R.id.currentView, fragment)
 			.commit()
 	}
 
-/*
-	override fun onDestroy() {
-		super.onDestroy()
-	}
-*/
-
-	fun calculateBPS(view: View?){
-
+	private fun startWorkManager(){
+		IncomeWorkerScheduler.refreshPeriodicWork(this)
 	}
 }
