@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import info.cs4518.bitcoinblitz.PlayerViewModel
+import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.databinding.FragmentHomeScreenBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,14 +28,17 @@ class HomeScreen : Fragment() {
 	private val TAG = "HOME_FRAGMENT";
 
 	private lateinit var binding: FragmentHomeScreenBinding
-	private lateinit var bitcoinPerSecondTextview: TextView
-	private lateinit var walletTextView: TextView
 
 	lateinit var viewModel: PlayerViewModel
 
-	fun tapBitcoin(view: View?) {
+	private fun tapBitcoin() {
 		viewModel.wallet += viewModel.clickPotency
-		walletTextView.text = viewModel.wallet.toString()
+		updateBitcoinValues()
+	}
+
+	private fun updateBitcoinValues() {
+		binding.bitcoinPerSecondView.text = resources.getString(R.string.BPS_View, viewModel.bitcoinPerSecond)
+		binding.walletView.text = resources.getString(R.string.Wallet_View, viewModel.wallet)
 	}
 
 	override fun onCreateView(
@@ -46,8 +50,10 @@ class HomeScreen : Fragment() {
 		binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
 		// Set initial values for bitcoin wallet
-//		binding.bitcoinPerSecondView.text = viewModel.bitcoinPerSecond.toString()
-//		binding.walletView.text = "${viewModel.wallet} B/s"
+		updateBitcoinValues()
+
+		// Clickevent for bitcoin button
+		binding.bitcoinButton.setOnClickListener { tapBitcoin()	}
 
 		// Inflate the layout for this fragment
 		return binding.root
