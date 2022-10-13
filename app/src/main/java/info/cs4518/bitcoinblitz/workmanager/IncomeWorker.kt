@@ -6,7 +6,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import java.lang.Exception
 
-class IncomeWorker(context: Context, val workerParams: WorkerParameters) : Worker(
+class IncomeWorker(context: Context, workerParams: WorkerParameters) : Worker(
     context,
     workerParams) {
 
