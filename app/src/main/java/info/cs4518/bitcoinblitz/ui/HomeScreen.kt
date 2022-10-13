@@ -31,11 +31,6 @@ class HomeScreen : Fragment() {
 
 	lateinit var viewModel: PlayerViewModel
 
-	private fun tapBitcoin() {
-		viewModel.wallet += viewModel.clickPotency
-		updateBitcoinValues()
-	}
-
 	private fun updateBitcoinValues() {
 		binding.bitcoinPerSecondView.text = resources.getString(R.string.BPS_View, viewModel.bitcoinPerSecond)
 		binding.walletView.text = resources.getString(R.string.Wallet_View, viewModel.wallet)
@@ -46,14 +41,19 @@ class HomeScreen : Fragment() {
 		savedInstanceState: Bundle?
 	): View? {
 		// Init viewmodel and viewbinding
-		viewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
+		viewModel = ViewModelProvider(activity as MainActivity)[PlayerViewModel::class.java]
 		binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
+
+		Log.d(TAG, "viewModel.wallet = ${viewModel.wallet}")
 
 		// Set initial values for bitcoin wallet
 		updateBitcoinValues()
 
 		// Clickevent for bitcoin button
-		binding.bitcoinButton.setOnClickListener { tapBitcoin()	}
+		binding.bitcoinButton.setOnClickListener {
+			viewModel.wallet += viewModel.clickPotency
+			updateBitcoinValues()
+		}
 
 		// Inflate the layout for this fragment
 		return binding.root
