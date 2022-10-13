@@ -1,13 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
     android:name="info.cs4518.bitcoinblitz.ui.shop.StoreScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".ui.shop.StoreScreen"
-    tools:listitem="@layout/fragment_store_screen" />
+    tools:context=".ui.shop.StoreScreen">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wallet_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/bitcoin_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Wallet_View"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="999₿" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="info.cs4518.bitcoinblitz.ui.shop.StoreScreen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wallet_info"
+        tools:listitem="@layout/fragment_store_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

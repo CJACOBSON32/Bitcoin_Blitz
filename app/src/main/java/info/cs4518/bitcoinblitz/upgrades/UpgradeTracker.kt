@@ -13,8 +13,8 @@ class UpgradeTracker {
 			.add(upgrade)
 	}
 
-	fun getPassiveIncome():Int {
-		val allPassiveUpgrades = db.collection("Upgrades")
-		allPassiveUpgrades.whereArrayContains()
-	}
+//	fun getPassiveIncome():Int {
+//		val allPassiveUpgrades = db.collection("Upgrades")
+//		allPassiveUpgrades.whereArrayContains()
+//	}
 }

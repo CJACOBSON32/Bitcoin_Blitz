@@ -21,10 +21,6 @@ import info.cs4518.bitcoinblitz.databinding.FragmentHomeScreenBinding
  * create an instance of this fragment.
  */
 class HomeScreen : Fragment() {
-	// TODO: Rename and change types of parameters
-	private var param1: String? = null
-	private var param2: String? = null
-
 	private val TAG = "HOME_FRAGMENT";
 
 	private lateinit var binding: FragmentHomeScreenBinding
@@ -33,7 +29,7 @@ class HomeScreen : Fragment() {
 
 	private fun updateBitcoinValues() {
 		binding.bitcoinPerSecondView.text = resources.getString(R.string.BPS_View, viewModel.bitcoinPerSecond)
-		binding.walletView.text = resources.getString(R.string.Wallet_View, viewModel.wallet)
+		binding.walletView.text = resources.getString(R.string.Wallet_View, viewModel.wallet.value)
 	}
 
 	override fun onCreateView(
@@ -51,7 +47,7 @@ class HomeScreen : Fragment() {
 
 		// Clickevent for bitcoin button
 		binding.bitcoinButton.setOnClickListener {
-			viewModel.wallet += viewModel.clickPotency
+			viewModel.wallet.value = viewModel.wallet.value?.plus(viewModel.clickPotency)
 			updateBitcoinValues()
 		}
 
@@ -64,11 +60,8 @@ class HomeScreen : Fragment() {
 		 * Use this factory method to create a new instance of
 		 * this fragment using the provided parameters.
 		 *
-		 * @param param1 Parameter 1.
-		 * @param param2 Parameter 2.
 		 * @return A new instance of fragment HomeScreen.
 		 */
-		// TODO: Rename and change types and number of parameters
 		@JvmStatic
 		fun newInstance() = HomeScreen().apply {}
 	}

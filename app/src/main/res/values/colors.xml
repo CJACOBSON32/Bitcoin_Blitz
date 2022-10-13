@@ -9,6 +9,10 @@
 	<color name="orange_500">#f2a900</color>
 	<color name="orange_700">#ba7a00</color>
 
+	<!--	Shop prices		-->
+	<color name="green_700">#30B300</color>
+	<color name="red_700">#B30000</color>
+
 	<color name="teal_200">#FF03DAC5</color>
 	<color name="teal_700">#FF018786</color>
 	<color name="black">#FF000000</color>

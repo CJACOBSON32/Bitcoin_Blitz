@@ -7,4 +7,5 @@
     <string name="Stats_Label">Stats</string>
     <string name="Wallet_View">%d ฿</string>
     <string name="BPS_View">%d ฿/s</string>
+    <string name="buy">Buy</string>
 </resources>

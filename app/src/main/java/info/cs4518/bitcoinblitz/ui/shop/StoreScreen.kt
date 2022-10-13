@@ -1,6 +1,7 @@
 package info.cs4518.bitcoinblitz.ui.shop
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,55 +9,77 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.bitcoinstoremodule.ShopItem
+import com.example.bitcoinstoremodule.ShopItemAdapter
+import info.cs4518.bitcoinblitz.PlayerViewModel
 import info.cs4518.bitcoinblitz.R
+import info.cs4518.bitcoinblitz.databinding.FragmentHomeScreenBinding
+import info.cs4518.bitcoinblitz.databinding.FragmentStoreScreenListBinding
 import info.cs4518.bitcoinblitz.placeholder.PlaceholderContent
+import info.cs4518.bitcoinblitz.ui.MainActivity
 
 /**
  * A fragment representing a list of Items.
  */
 class StoreScreen : Fragment() {
 
-	private var columnCount = 1
-
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-
-		arguments?.let {
-			columnCount = it.getInt(ARG_COLUMN_COUNT)
-		}
-	}
+	private val TAG = "STORE_SCREEN"
+	private lateinit var currencyText: TextView
+	private lateinit var binding: FragmentStoreScreenListBinding
+	lateinit var viewModel: PlayerViewModel
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		val view = inflater.inflate(R.layout.fragment_store_screen_list, container, false)
+		// Init viewmodel and viewbinding
+		viewModel = ViewModelProvider(activity as MainActivity)[PlayerViewModel::class.java]
+		binding = FragmentStoreScreenListBinding.inflate(inflater, container, false)
 
 		// Set the adapter
-		if (view is RecyclerView) {
-			with(view) {
-				layoutManager = when {
-					columnCount <= 1 -> LinearLayoutManager(context)
-					else -> GridLayoutManager(context, columnCount)
-				}
-				adapter = StoreItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
-			}
+		binding.list.layoutManager = LinearLayoutManager(activity as MainActivity)
+		binding.list.adapter = ShopItemAdapter(activity as MainActivity, getShopItemList())
+
+		currencyText = binding.bitcoinCount
+		currencyText.text = getString(R.string.Wallet_View, viewModel.wallet.value)
+
+		Log.d(TAG, "currencyText.text = ${currencyText.text}")
+
+		// Bind observer to livedata
+		val bitcoinObserver = Observer<Int> { newCount ->
+			currencyText.text = getString(R.string.Wallet_View, newCount)
 		}
-		return view
+		viewModel.wallet.observe(activity as MainActivity, bitcoinObserver)
+
+		return binding.root
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		viewModel.wallet.removeObservers(activity as MainActivity)
+	}
+
+	private fun getShopItemList(): List<ShopItem> {
+
+		var title: String
+		var description: String
+		val shopitems = ArrayList<ShopItem>()
+
+		// create 20 shop items for sake of assignment with sample prices
+		for (i in 1..20){
+			title = "GPU $i"
+			description = "description $i"
+			shopitems.add(ShopItem(title, 100 + (i-1) * 20, description, 0))
+		}
+		return shopitems
 	}
 
 	companion object {
-
-		// TODO: Customize parameter argument names
-		const val ARG_COLUMN_COUNT = "column-count"
-
-		// TODO: Customize parameter initialization
 		@JvmStatic
-		fun newInstance(columnCount: Int) =
-			StoreScreen().apply {
-				arguments = Bundle().apply {
-					putInt(ARG_COLUMN_COUNT, columnCount)
-				}
-			}
+		fun newInstance() = StoreScreen().apply {}
 	}
 }
