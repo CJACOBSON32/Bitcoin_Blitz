@@ -30,16 +30,7 @@
         <item id="18" name="Fan Cooling" cost="1000" description="LED fans"/>
         <item id="19" name="Water Cooling" cost="100000" description="Next level cooling"/>
         <item id="20" name="Liquid Nitrogen Cooling" cost="10000000" description="Ice cold"/>
-        <item id="21" name="Dedicated Capacitors" cost="5000" description=
-            "Let's power up!"/>
-        <item id="22" name="Field of Wind Turbines" cost="500000" description=
-            "Thunder, Thunder, Lightning and the Thunder"/>
-        <item id="23" name="Dedicated Oil Power Plant" cost="50000000" description=
-            "Helter Skelter in a Summer Swelter"/>
-        <item id="24" name="Dedicated Nuclear Facility" cost="500000000" description=
-            "Radioactive! Radioactive!"/>
-        <item id="25" name="Fission Reactor" cost="9999999999" description=
-            "You know it's not the same as it was"/>
+
     </array>
 
 </resources>
