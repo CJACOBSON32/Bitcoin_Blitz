@@ -2,7 +2,7 @@ package info.cs4518.bitcoinblitz.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +12,6 @@ import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.databinding.ActivityMainBinding
 import info.cs4518.bitcoinblitz.ui.shop.StoreScreen
 import info.cs4518.bitcoinblitz.ui.stats.StatScreen
-import info.cs4518.bitcoinblitz.workmanager.IncomeWorker
 import info.cs4518.bitcoinblitz.workmanager.IncomeWorkerScheduler
 
 val TAG = "MAINACTIVITY"
@@ -57,6 +56,9 @@ class MainActivity : AppCompatActivity() {
 
 			true
 		}
+
+		// Initialize upgrades
+		viewModel.upgrades.loadUpgrades(resources.openRawResource(R.raw.upgrades))
 	}
 
 

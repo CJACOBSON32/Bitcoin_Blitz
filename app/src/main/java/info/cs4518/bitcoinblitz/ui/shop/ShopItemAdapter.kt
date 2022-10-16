@@ -14,12 +14,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import info.cs4518.bitcoinblitz.PlayerViewModel
 import info.cs4518.bitcoinblitz.R
+import info.cs4518.bitcoinblitz.upgrades.Upgrade
 
 private const val TAG = "ShopItemAdapter"
 
 // got rid of RecycleView comments because we're building on top of it
 
-class ShopItemAdapter(val activity: AppCompatActivity, private val shopItems: List<ShopItem>) :
+class ShopItemAdapter(val activity: AppCompatActivity, private val shopItems: List<ShopItem<Upgrade>>) :
 	RecyclerView.Adapter<ShopItemAdapter.ViewHolder>() {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,14 +46,14 @@ class ShopItemAdapter(val activity: AppCompatActivity, private val shopItems: Li
 		private val cardView: CardView
 		private lateinit var viewModel: PlayerViewModel
 
-		fun bind(cShopItem: ShopItem) {
+		fun bind(cShopItem: ShopItem<Upgrade>) {
 			titleText.text = cShopItem.title
 			descText.text = cShopItem.description
 			priceText.text = activity.getString(R.string.Wallet_View, cShopItem.price)
 			viewModel = ViewModelProvider(activity)[PlayerViewModel::class.java]
 
 			// Make the gpu text red if the user cannot afford the GPU and green if they can
-			val bitcoinObserver = Observer<Int> { newCount ->
+			val bitcoinObserver = Observer<Long> { newCount ->
 				if (newCount >= cShopItem.price)
 					priceText.setTextColor(activity.getColor(R.color.green_700))
 				else
@@ -64,8 +65,10 @@ class ShopItemAdapter(val activity: AppCompatActivity, private val shopItems: Li
 			launchButton.setOnClickListener {
 				Log.d(TAG, "bought for ${cShopItem.price}")
 				// Check if the user has enough bitcoin and subtract if they do
-				if (viewModel.wallet.value!! >= cShopItem.price)
+				if (viewModel.wallet.value!! >= cShopItem.price) {
 					viewModel.wallet.value = viewModel.wallet.value!! - cShopItem.price
+
+				}
 				else
 					Toast.makeText(activity,"You cannot afford this item", Toast.LENGTH_SHORT).show()
 			}

@@ -20,6 +20,7 @@ import info.cs4518.bitcoinblitz.databinding.FragmentHomeScreenBinding
 import info.cs4518.bitcoinblitz.databinding.FragmentStoreScreenListBinding
 import info.cs4518.bitcoinblitz.placeholder.PlaceholderContent
 import info.cs4518.bitcoinblitz.ui.MainActivity
+import info.cs4518.bitcoinblitz.upgrades.Upgrade
 
 /**
  * A fragment representing a list of Items.
@@ -49,7 +50,7 @@ class StoreScreen : Fragment() {
 		Log.d(TAG, "currencyText.text = ${currencyText.text}")
 
 		// Bind observer to livedata
-		val bitcoinObserver = Observer<Int> { newCount ->
+		val bitcoinObserver = Observer<Long> { newCount ->
 			currencyText.text = getString(R.string.Wallet_View, newCount)
 		}
 		viewModel.wallet.observe(activity as MainActivity, bitcoinObserver)
@@ -63,17 +64,18 @@ class StoreScreen : Fragment() {
 		viewModel.wallet.removeObservers(activity as MainActivity)
 	}
 
-	private fun getShopItemList(): List<ShopItem> {
+	private fun getShopItemList(): List<ShopItem<Upgrade>> {
 
-		var title: String
 		var description: String
-		val shopitems = ArrayList<ShopItem>()
+		val shopitems = ArrayList<ShopItem<Upgrade>>()
 
-		// create 20 shop items for sake of assignment with sample prices
-		for (i in 1..20){
-			title = "GPU $i"
-			description = "description $i"
-			shopitems.add(ShopItem(title, 100 + (i-1) * 20, description, 0))
+		val upgrades = viewModel.upgrades.allUpgrades.sortedBy { it.cost }
+
+		// Add shopitems from upgradetracker
+		for (upgrade in upgrades) {
+			description = upgrade.description // TODO: Append stats for upgrades
+			val newItem = ShopItem(upgrade.name, upgrade.cost, description, upgrade.numOwned, upgrade)
+			shopitems.add(newItem)
 		}
 		return shopitems
 	}
