@@ -16,10 +16,7 @@ class BigNumbers {
 			} else if (long >= 10f.pow(8)) { // Millions
 				val divided = long/10.0.pow(6)
 				return String.format("%.2fM", divided)
-			} else if (long >= 10f.pow(5)) { // Thousands
-				val divided = long/10.0.pow(3)
-				return String.format("%.2fK", divided)
-			} else {
+			}else {
 				val formatter = DecimalFormat("#,###,###")
 				return formatter.format(long)
 			}
