@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.bitcoinstoremodule.ShopItem
 import com.example.bitcoinstoremodule.ShopItemAdapter
+import info.cs4518.bitcoinblitz.BigNumbers
 import info.cs4518.bitcoinblitz.PlayerViewModel
 import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.databinding.FragmentHomeScreenBinding
@@ -45,13 +46,15 @@ class StoreScreen : Fragment() {
 		binding.list.adapter = ShopItemAdapter(activity as MainActivity, this, getShopItemList())
 
 		currencyText = binding.bitcoinCount
-		currencyText.text = getString(R.string.Wallet_View, viewModel.wallet.value)
+		currencyText.text = getString(
+			R.string.Wallet_View, BigNumbers.numToStr(viewModel.wallet.value!!)
+		)
 
 		Log.d(TAG, "currencyText.text = ${currencyText.text}")
 
 		// Bind observer to livedata
 		val bitcoinObserver = Observer<Long> { newCount ->
-			currencyText.text = getString(R.string.Wallet_View, newCount)
+			currencyText.text = getString(R.string.Wallet_View, BigNumbers.numToStr(newCount))
 		}
 		viewModel.wallet.observe(activity as MainActivity, bitcoinObserver)
 

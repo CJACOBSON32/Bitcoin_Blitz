@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import info.cs4518.bitcoinblitz.BigNumbers
 import info.cs4518.bitcoinblitz.PlayerViewModel
 import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.upgrades.ActiveUpgrade
@@ -53,19 +54,27 @@ class ShopItemAdapter(val activity: AppCompatActivity, val fragment: Fragment, p
 		fun bind(cUpgrade: Upgrade) {
 			titleText.text = cUpgrade.name
 			descText.text = cUpgrade.description
-			priceText.text = activity.getString(R.string.Wallet_View, cUpgrade.cost)
+			priceText.text = activity.getString(
+				R.string.Wallet_View, BigNumbers.numToStr(cUpgrade.cost)
+			)
 			ownedCounter.text = activity.getString(R.string.Owned_Count, cUpgrade.numOwned)
 			viewModel = ViewModelProvider(activity)[PlayerViewModel::class.java]
 
 			// Set upgrade stats text
 			when (cUpgrade) {
-				is ActiveUpgrade -> statText.text = activity.getString(R.string.Active_Stats, cUpgrade.clickPotencyAdditive)
-				is PassiveUpgrade -> statText.text = activity.getString(R.string.Passive_Stats, cUpgrade.passiveIncome)
+				is ActiveUpgrade -> statText.text = activity.getString(
+					R.string.Active_Stats,
+					BigNumbers.numToStr(cUpgrade.clickPotencyAdditive)
+				)
+				is PassiveUpgrade -> statText.text = activity.getString(
+					R.string.Passive_Stats,
+					BigNumbers.numToStr(cUpgrade.passiveIncome)
+				)
 				is OverclockUpgrade -> {
 					if (cUpgrade.boostAdditive > 0)
 						statText.text = activity.getString(
 							R.string.Overclock_Stats_Boost_Additive,
-							cUpgrade.boostAdditive
+							BigNumbers.numToStr(cUpgrade.boostAdditive)
 						)
 					else if (cUpgrade.boostMultiplier > 1)
 						statText.text = activity.getString(
@@ -98,7 +107,10 @@ class ShopItemAdapter(val activity: AppCompatActivity, val fragment: Fragment, p
 					viewModel.upgrades.buy(cUpgrade)
 					ownedCounter.text = activity.getString(R.string.Owned_Count, cUpgrade.numOwned)
 					cUpgrade.cost = (cUpgrade.cost * 1.1).toLong()
-					priceText.text = activity.getString(R.string.Wallet_View, cUpgrade.cost)
+					priceText.text = activity.getString(
+						R.string.Wallet_View,
+						BigNumbers.numToStr(cUpgrade.cost)
+					)
 				}
 				else
 					Toast.makeText(activity,"You cannot afford this item", Toast.LENGTH_SHORT).show()

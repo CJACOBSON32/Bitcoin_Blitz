@@ -5,14 +5,14 @@
     <string name="Home_Label">Home</string>
     <string name="Store_Label">Store</string>
     <string name="Stats_Label">Stats</string>
-    <string name="Wallet_View">%d ฿</string>
-    <string name="BPS_View">%d ฿/s</string>
+    <string name="Wallet_View">%s ฿</string>
+    <string name="BPS_View">%s ฿/s</string>
     <string name="buy">Buy</string>
     <string name="Owned_Count">%d Owned</string>
     <string name="Buy_Prompt">Tap on an item to buy</string>
-    <string name="Active_Stats">+%d฿ on tap</string>
-    <string name="Passive_Stats">+%d฿/s</string>
+    <string name="Active_Stats">+%s ฿ on tap</string>
+    <string name="Passive_Stats">+%s ฿/s Passively</string>
     <string name="Overclock_Stats_Boost_Multiplier">%d%% ฿ boost on overclock</string>
     <string name="Overclock_Stats_Boost_Cooldown">-%d%% overclock cooldown</string>
-    <string name="Overclock_Stats_Boost_Additive">%d฿/s on overclock</string>
+    <string name="Overclock_Stats_Boost_Additive">%s ฿/s on overclock</string>
 </resources>

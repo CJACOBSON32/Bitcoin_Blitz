@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import info.cs4518.bitcoinblitz.BigNumbers
 import info.cs4518.bitcoinblitz.PlayerViewModel
 import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.databinding.FragmentHomeScreenBinding
@@ -29,8 +30,12 @@ class HomeScreen : Fragment() {
 	lateinit var viewModel: PlayerViewModel
 
 	private fun updateBitcoinValues(newAmount: Long?) {
-		binding.bitcoinPerSecondView.text = resources.getString(R.string.BPS_View, viewModel.bitcoinPerSecond)
-		binding.walletView.text = resources.getString(R.string.Wallet_View, viewModel.wallet.value)
+		binding.bitcoinPerSecondView.text = resources.getString(
+			R.string.BPS_View, BigNumbers.numToStr(viewModel.bitcoinPerSecond)
+		)
+		binding.walletView.text = resources.getString(
+			R.string.Wallet_View, BigNumbers.numToStr(viewModel.wallet.value!!)
+		)
 	}
 
 	override fun onCreateView(
