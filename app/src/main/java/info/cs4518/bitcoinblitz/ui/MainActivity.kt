@@ -63,6 +63,18 @@ class MainActivity : AppCompatActivity() {
 
 		// Initialize upgrades
 		viewModel.upgrades.loadUpgrades(resources.openRawResource(R.raw.upgrades))
+
+		// Set bitcoin to increment in the background every second
+		val backgroundBitcoin = Timer()
+		backgroundBitcoin.scheduleAtFixedRate(
+			object : TimerTask() {
+				override fun run() {
+					viewModel.wallet.postValue(
+						viewModel.wallet.value!! + viewModel.bitcoinPerSecond
+					)
+				}
+			}, 0, 1000
+		)
 	}
 
 
