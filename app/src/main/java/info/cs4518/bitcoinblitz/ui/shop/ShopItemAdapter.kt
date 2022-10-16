@@ -67,7 +67,7 @@ class ShopItemAdapter(val activity: AppCompatActivity, private val shopItems: Li
 				// Check if the user has enough bitcoin and subtract if they do
 				if (viewModel.wallet.value!! >= cShopItem.price) {
 					viewModel.wallet.value = viewModel.wallet.value!! - cShopItem.price
-
+					viewModel.upgrades.buy(cShopItem.upgrade)
 				}
 				else
 					Toast.makeText(activity,"You cannot afford this item", Toast.LENGTH_SHORT).show()

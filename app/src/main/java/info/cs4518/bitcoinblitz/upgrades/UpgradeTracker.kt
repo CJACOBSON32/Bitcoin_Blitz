@@ -1,5 +1,6 @@
 package info.cs4518.bitcoinblitz.upgrades
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -7,11 +8,12 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
+import info.cs4518.bitcoinblitz.PlayerViewModel
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 
-class UpgradeTracker {
+class UpgradeTracker(val viewModel: PlayerViewModel) {
 
 	val db = Firebase.firestore
 
@@ -29,6 +31,35 @@ class UpgradeTracker {
 		}
 		db.firestoreSettings = cSettings
 		docReference()
+	}
+
+	public fun buy(upgrade: Upgrade) {
+		upgrade.numOwned++
+		if (upgrade is ActiveUpgrade)
+			viewModel.clickPotency += upgrade.clickPotencyAdditive
+		else if (upgrade is PassiveUpgrade)
+			viewModel.bitcoinPerSecond += upgrade.passiveIncome
+		else if (upgrade is OverclockUpgrade)
+			// TODO: Implement overclock
+			Log.d("UPGRADE_TRACKER", "Will implement overclock upgrades")
+	}
+
+	private fun recalculateActive() {
+		viewModel.clickPotency = activeUpgrades.sumOf { it.clickPotencyAdditive*it.numOwned }
+	}
+
+	private fun recalculatePassive() {
+		viewModel.bitcoinPerSecond = passiveUpgrades.sumOf { it.passiveIncome*it.numOwned }
+	}
+
+	private fun recalculateOverclock() {
+
+	}
+
+	public fun recalculateAll() {
+		recalculateActive()
+		recalculatePassive()
+		recalculateOverclock()
 	}
 
 	/**

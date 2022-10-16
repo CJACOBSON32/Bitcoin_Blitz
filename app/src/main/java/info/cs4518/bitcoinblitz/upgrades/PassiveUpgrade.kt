@@ -5,5 +5,5 @@ data class PassiveUpgrade (
 	override val name: String,
 	override var cost: Long,
 	override val description: String,
-	val passiveIncome: Float
+	val passiveIncome: Long
 ): Upgrade(id, name, cost, description)

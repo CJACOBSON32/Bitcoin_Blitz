@@ -7,7 +7,7 @@ import info.cs4518.bitcoinblitz.upgrades.UpgradeTracker
 class PlayerViewModel : ViewModel() {
 	var clickCounter: Int = 0
 
-	var bitcoinPerSecond: Int = 0
+	var bitcoinPerSecond: Long = 0
 
 	var clickPotency: Int = 1
 
@@ -17,7 +17,7 @@ class PlayerViewModel : ViewModel() {
 		MutableLiveData<Long>()
 	}
 
-	val upgrades = UpgradeTracker()
+	val upgrades = UpgradeTracker(this)
 }
 
 
