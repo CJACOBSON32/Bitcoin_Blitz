@@ -40,14 +40,14 @@
 			"name": "President",
 			"cost": 3200000,
 			"description": "World's best boss!",
-			"clickPotencyAdditive": 1000000
+			"clickPotencyAdditive": 230000
 		},
 		{
 			"id": 7,
 			"name": "CEO",
 			"cost": 53000000,
 			"description": "Money moves",
-			"clickPotencyAdditive": 30000000
+			"clickPotencyAdditive": 5000000
 		}
 	],
 	"Passive": [
@@ -63,61 +63,61 @@
 			"name": "UTX 5060",
 			"cost": 900,
 			"description": "Handles 720p",
-			"passiveIncome": 70
+			"passiveIncome": 12
 		},
 		{
 			"id": 10,
 			"name": "UTX 5070",
 			"cost": 2500,
 			"description": "Mine diamonds",
-			"passiveIncome": 500
+			"passiveIncome": 200
 		},
 		{
 			"id": 11,
 			"name": "UTX 5080",
-			"cost": 7300,
+			"cost": 73000,
 			"description": "Shaders support",
-			"passiveIncome": 4000
+			"passiveIncome": 400
 		},
 		{
 			"id": 12,
 			"name": "UTX 5090",
-			"cost": 28000,
+			"cost": 280000,
 			"description": "Raytracing support",
-			"passiveIncome": 30000
+			"passiveIncome": 3000
 		},
 		{
 			"id": 13,
 			"name": "UTX 6050",
-			"cost": 96000,
+			"cost": 2600000,
 			"description": "Diamond hands",
-			"passiveIncome": 250000
+			"passiveIncome": 25000
 		},
 		{
 			"id": 14,
 			"name": "UTX 6060",
-			"cost": 530000,
+			"cost": 53000000,
 			"description": "Holding on tight",
 			"passiveIncome": 2000000
 		},
 		{
 			"id": 15,
 			"name": "UTX 6070",
-			"cost": 1870000,
+			"cost": 187000000,
 			"description": "Astronomical",
 			"passiveIncome": 1
 		},
 		{
 			"id": 16,
 			"name": "UTX 6080",
-			"cost": 10000000,
+			"cost": 1000000000,
 			"description": "To the moon!",
 			"passiveIncome": 15000000
 		},
 		{
 			"id": 17,
 			"name": "UTX 6090",
-			"cost": 420420420,
+			"cost": 420420420420,
 			"description": "To infinity and beyond!",
 			"passiveIncome": 1000000000
 		}

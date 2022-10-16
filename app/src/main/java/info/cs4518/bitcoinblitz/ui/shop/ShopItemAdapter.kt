@@ -97,6 +97,8 @@ class ShopItemAdapter(val activity: AppCompatActivity, val fragment: Fragment, p
 					viewModel.wallet.value = viewModel.wallet.value!! - cUpgrade.cost
 					viewModel.upgrades.buy(cUpgrade)
 					ownedCounter.text = activity.getString(R.string.Owned_Count, cUpgrade.numOwned)
+					cUpgrade.cost = (cUpgrade.cost * 1.1).toLong()
+					priceText.text = activity.getString(R.string.Wallet_View, cUpgrade.cost)
 				}
 				else
 					Toast.makeText(activity,"You cannot afford this item", Toast.LENGTH_SHORT).show()
