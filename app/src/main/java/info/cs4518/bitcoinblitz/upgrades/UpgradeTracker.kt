@@ -33,7 +33,7 @@ class UpgradeTracker(val viewModel: PlayerViewModel) {
 		docReference()
 	}
 
-	public fun buy(upgrade: Upgrade) {
+	fun buy(upgrade: Upgrade) {
 		upgrade.numOwned++
 		if (upgrade is ActiveUpgrade)
 			viewModel.clickPotency += upgrade.clickPotencyAdditive
@@ -82,12 +82,12 @@ class UpgradeTracker(val viewModel: PlayerViewModel) {
 
 		// Passive Upgrades
 		val passive = jsonObject.get("Passive").asJsonArray
-		val passiveListType = object : TypeToken<List<ActiveUpgrade>>() {}.type
+		val passiveListType = object : TypeToken<List<PassiveUpgrade>>() {}.type
 		passiveUpgrades.addAll(g.fromJson(passive.toString(), passiveListType))
 
 		// Overclock Upgrades
 		val overclock = jsonObject.get("Overclock").asJsonArray
-		val overclockListType = object : TypeToken<List<ActiveUpgrade>>() {}.type
+		val overclockListType = object : TypeToken<List<OverclockUpgrade>>() {}.type
 		overclockUpgrades.addAll(g.fromJson(overclock.toString(), overclockListType))
 
 		return allUpgrades

@@ -14,6 +14,7 @@ import info.cs4518.bitcoinblitz.databinding.ActivityMainBinding
 import info.cs4518.bitcoinblitz.ui.shop.StoreScreen
 import info.cs4518.bitcoinblitz.ui.stats.StatScreen
 import info.cs4518.bitcoinblitz.workmanager.IncomeWorkerScheduler
+import java.util.*
 
 val TAG = "MAINACTIVITY"
 
@@ -37,7 +38,6 @@ class MainActivity : AppCompatActivity() {
 
 		// Get Viewmodel
 		viewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
-
 
 		// Sync LiveData with viewmodel
 		viewModel.wallet.value = viewModel.bitcoinCount

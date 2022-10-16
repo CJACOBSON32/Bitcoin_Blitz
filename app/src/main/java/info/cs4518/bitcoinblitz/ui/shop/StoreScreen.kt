@@ -42,7 +42,7 @@ class StoreScreen : Fragment() {
 
 		// Set the adapter
 		binding.list.layoutManager = LinearLayoutManager(activity as MainActivity)
-		binding.list.adapter = ShopItemAdapter(activity as MainActivity, getShopItemList())
+		binding.list.adapter = ShopItemAdapter(activity as MainActivity, this, getShopItemList())
 
 		currencyText = binding.bitcoinCount
 		currencyText.text = getString(R.string.Wallet_View, viewModel.wallet.value)
@@ -64,20 +64,11 @@ class StoreScreen : Fragment() {
 		viewModel.wallet.removeObservers(activity as MainActivity)
 	}
 
-	private fun getShopItemList(): List<ShopItem<Upgrade>> {
-
-		var description: String
-		val shopitems = ArrayList<ShopItem<Upgrade>>()
+	private fun getShopItemList(): List<Upgrade> {
 
 		val upgrades = viewModel.upgrades.allUpgrades.sortedBy { it.cost }
 
-		// Add shopitems from upgradetracker
-		for (upgrade in upgrades) {
-			description = upgrade.description // TODO: Append stats for upgrades
-			val newItem = ShopItem(upgrade.name, upgrade.cost, description, upgrade.numOwned, upgrade)
-			shopitems.add(newItem)
-		}
-		return shopitems
+		return upgrades
 	}
 
 	companion object {

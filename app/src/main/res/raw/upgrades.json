@@ -137,7 +137,7 @@
 			"name": "Water Cooling",
 			"cost": 100000,
 			"description": "Next level cooling",
-			"cooldownMultiplier": 1.2,
+			"cooldownMultiplier": 1.6,
 			"boostMultiplier": 1.0,
 			"boostAdditive": 0
 		},
@@ -146,7 +146,7 @@
 			"name": "Liquid Nitrogen Cooling",
 			"cost": 10000000,
 			"description": "Ice cold",
-			"cooldownMultiplier": 1.2,
+			"cooldownMultiplier": 2.2,
 			"boostMultiplier": 1.0,
 			"boostAdditive": 0
 		},

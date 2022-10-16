@@ -8,4 +8,11 @@
     <string name="Wallet_View">%d ฿</string>
     <string name="BPS_View">%d ฿/s</string>
     <string name="buy">Buy</string>
+    <string name="Owned_Count">%d Owned</string>
+    <string name="Buy_Prompt">Tap on an item to buy</string>
+    <string name="Active_Stats">+%d฿ on tap</string>
+    <string name="Passive_Stats">+%d฿/s</string>
+    <string name="Overclock_Stats_Boost_Multiplier">%d%% ฿ boost on overclock</string>
+    <string name="Overclock_Stats_Boost_Cooldown">-%d%% overclock cooldown</string>
+    <string name="Overclock_Stats_Boost_Additive">%d฿/s on overclock</string>
 </resources>
