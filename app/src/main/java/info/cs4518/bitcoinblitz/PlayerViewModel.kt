@@ -13,6 +13,8 @@ class PlayerViewModel : ViewModel() {
 
 	var overclockMeter: Float = 0f
 
+	var bitcoinCount: Long = 0
+
 	val wallet: MutableLiveData<Long> by lazy {
 		MutableLiveData<Long>()
 	}

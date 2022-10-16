@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import info.cs4518.bitcoinblitz.PlayerViewModel
 import info.cs4518.bitcoinblitz.R
@@ -27,7 +28,7 @@ class HomeScreen : Fragment() {
 
 	lateinit var viewModel: PlayerViewModel
 
-	private fun updateBitcoinValues() {
+	private fun updateBitcoinValues(newAmount: Long?) {
 		binding.bitcoinPerSecondView.text = resources.getString(R.string.BPS_View, viewModel.bitcoinPerSecond)
 		binding.walletView.text = resources.getString(R.string.Wallet_View, viewModel.wallet.value)
 	}
@@ -40,15 +41,15 @@ class HomeScreen : Fragment() {
 		viewModel = ViewModelProvider(activity as MainActivity)[PlayerViewModel::class.java]
 		binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
-		Log.d(TAG, "viewModel.wallet = ${viewModel.wallet}")
-
 		// Set initial values for bitcoin wallet
-		updateBitcoinValues()
+		updateBitcoinValues(viewModel.wallet.value)
+
+		val bitcoinObserver = Observer<Long> { newCount -> updateBitcoinValues(newCount) }
+		viewModel.wallet.observe(viewLifecycleOwner, bitcoinObserver)
 
 		// Clickevent for bitcoin button
 		binding.bitcoinButton.setOnClickListener {
 			viewModel.wallet.value = viewModel.wallet.value?.plus(viewModel.clickPotency)
-			updateBitcoinValues()
 		}
 
 		// Inflate the layout for this fragment

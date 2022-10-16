@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import info.cs4518.bitcoinblitz.PlayerViewModel
@@ -37,8 +38,11 @@ class MainActivity : AppCompatActivity() {
 		// Get Viewmodel
 		viewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
 
-		// Set initial values for livedata
-		viewModel.wallet.value = 0
+
+		// Sync LiveData with viewmodel
+		viewModel.wallet.value = viewModel.bitcoinCount
+		val bitcoinObserver = Observer<Long> { newCount -> viewModel.bitcoinCount = newCount }
+		viewModel.wallet.observe(this, bitcoinObserver)
 
 		// Get navigation view
 		navigationBar = binding.bottomNavigation
