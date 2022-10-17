@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun chargeOverclock(clockStats: UpgradeTracker.OverclockStats): CountDownTimer {
-		val rechargeTime = (10000 * clockStats.cooldownMultiplier).toLong()
+		val rechargeTime = (300000 * clockStats.cooldownMultiplier).toLong()
 		Toast.makeText(applicationContext,
 			"Overclock will recharge in ${rechargeTime/1000}s", Toast.LENGTH_SHORT).show()
 		viewModel.overclockState = PlayerViewModel.OverclockState.CHARGING
