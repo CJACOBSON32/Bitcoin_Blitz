@@ -30,9 +30,6 @@ class UpgradeTracker(val viewModel: PlayerViewModel, val application: Applicatio
 			viewModel.clickPotency += upgrade.clickPotencyAdditive
 		else if (upgrade is PassiveUpgrade)
 			viewModel.bitcoinPerSecond += upgrade.passiveIncome
-		else if (upgrade is OverclockUpgrade)
-			// TODO: Implement overclock
-			Log.d("UPGRADE_TRACKER", "Will implement overclock upgrades")
 	}
 
 	private fun recalculateActive() {
@@ -43,14 +40,21 @@ class UpgradeTracker(val viewModel: PlayerViewModel, val application: Applicatio
 		viewModel.bitcoinPerSecond = passiveUpgrades.sumOf { it.passiveIncome*it.numOwned }
 	}
 
-	private fun recalculateOverclock() {
+	fun getOverclockStats(): OverclockStats {
+		val stats = OverclockStats(1f, 0f, 2)
 
+		for (upgrade in overclockUpgrades) {
+			stats.cooldownMultiplier *= 1/upgrade.cooldownMultiplier
+			stats.boostMultiplier += 1-upgrade.boostMultiplier
+			stats.boostAdditive += upgrade.boostAdditive
+		}
+
+		return stats
 	}
 
 	fun recalculateAll() {
 		recalculateActive()
 		recalculatePassive()
-		recalculateOverclock()
 	}
 
 	/**
@@ -99,4 +103,10 @@ class UpgradeTracker(val viewModel: PlayerViewModel, val application: Applicatio
 		reader.close()
 		return sb.toString()
 	}
+
+	data class OverclockStats(
+		var cooldownMultiplier: Float,
+		var boostMultiplier: Float,
+		var boostAdditive: Int
+	)
 }
