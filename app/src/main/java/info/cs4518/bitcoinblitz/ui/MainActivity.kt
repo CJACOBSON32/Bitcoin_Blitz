@@ -5,10 +5,11 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Looper
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.Observer
@@ -19,8 +20,11 @@ import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.databinding.ActivityMainBinding
 import info.cs4518.bitcoinblitz.ui.shop.StoreScreen
 import info.cs4518.bitcoinblitz.ui.stats.StatScreen
+import info.cs4518.bitcoinblitz.upgrades.UpgradeTracker
+import java.time.LocalTime
 import java.util.*
 import kotlin.math.sqrt
+
 
 val TAG = "MAINACTIVITY"
 
@@ -40,7 +44,9 @@ class MainActivity : AppCompatActivity() {
 	private var currentAcceleration = 0f
 	private var lastAcceleration = 0f
 
-	private var overclockReady = true
+	private var overclockReady = false
+	private var currentPage = R.id.home_button
+	private var overclockStartTime = LocalTime.now()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -64,9 +70,18 @@ class MainActivity : AppCompatActivity() {
 		navigationBar.selectedItemId = R.id.home_button
 		navigationBar.setOnItemSelectedListener { item ->
 			when (item.itemId) {
-				R.id.home_button -> switchScreen(HomeScreen.newInstance())
-				R.id.stats_button -> switchScreen(StatScreen.newInstance(1))
-				R.id.store_button -> switchScreen(StoreScreen.newInstance())
+				R.id.home_button -> {
+					switchScreen(HomeScreen.newInstance())
+					currentPage = R.id.home_button
+				}
+				R.id.stats_button -> {
+					switchScreen(StatScreen.newInstance(1))
+					currentPage = R.id.stats_button
+				}
+				R.id.store_button -> {
+					switchScreen(StoreScreen.newInstance())
+					currentPage = R.id.store_button
+				}
 				else -> false
 			}
 
@@ -82,8 +97,6 @@ class MainActivity : AppCompatActivity() {
 		currentAcceleration = SensorManager.GRAVITY_EARTH
 		lastAcceleration = SensorManager.GRAVITY_EARTH
 
-		viewModel.upgrades.recalculateAll()
-
 		// Set bitcoin to increment in the background every second
 		val backgroundBitcoin = Timer()
 		backgroundBitcoin.scheduleAtFixedRate(
@@ -95,6 +108,10 @@ class MainActivity : AppCompatActivity() {
 				}
 			}, 0, 1000
 		)
+
+		// Start overclock recharging initially
+		val clockStats = viewModel.upgrades.getOverclockStats()
+		chargeOverclock(clockStats)
 	}
 
 	fun triggerOverclock() {
@@ -111,22 +128,60 @@ class MainActivity : AppCompatActivity() {
 		viewModel.bitcoinPerSecond = (viewModel.bitcoinPerSecond * clockStats.boostMultiplier).toLong()
 		viewModel.bitcoinPerSecond += clockStats.boostAdditive
 
-		runAtDelay({
+		if (currentPage == R.id.home_button) {
+			val overclockText =fragmentView.getFragment<HomeScreen>().binding.overclockText
+			overclockText.text = resources.getString(R.string.Overclock_Active)
+		}
+
+		// Run overclock
+		val interval: Long = 250
+		val overClockTime: Long = 10000
+		var timeLeft: Long = overClockTime
+		runTimer({
 			Looper.prepare()
 			viewModel.clickPotency = oldPotency
 			viewModel.bitcoinPerSecond = oldBPS
 			Toast.makeText(applicationContext, "Overclock Finished", Toast.LENGTH_SHORT).show()
 
-			val rechargeTime = (10000 * clockStats.cooldownMultiplier).toLong()
-			Toast.makeText(applicationContext,
-				"Overclock will recharge in ${rechargeTime/1000}s", Toast.LENGTH_SHORT).show()
+			// Set recharge bar text
+			if (currentPage == R.id.home_button) {
+				val overclockText =fragmentView.getFragment<HomeScreen>().binding.overclockText
+				overclockText.text = resources.getString(R.string.Overclock_Charging)
+			}
 
-			runAtDelay({
-				Looper.prepare()
-				Toast.makeText(applicationContext, "Overclock charged", Toast.LENGTH_SHORT).show()
-				overclockReady = true
-			}, rechargeTime)
-		}, 10000)
+			chargeOverclock(clockStats)
+		}, {
+			if (currentPage == R.id.home_button) {
+				val overclockBar =fragmentView.getFragment<HomeScreen>().binding.overclockBar
+				overclockBar.progress = ((100*timeLeft)/overClockTime).toInt()
+				timeLeft -= interval
+			}
+		}, overClockTime, interval)
+	}
+
+	private fun chargeOverclock(clockStats: UpgradeTracker.OverclockStats): CountDownTimer {
+		val rechargeTime = (10000 * clockStats.cooldownMultiplier).toLong()
+		Toast.makeText(applicationContext,
+			"Overclock will recharge in ${rechargeTime/1000}s", Toast.LENGTH_SHORT).show()
+
+		var timePassed: Long = 0
+		val interval: Long = 250
+		return runTimer({
+			Toast.makeText(applicationContext, "Overclock charged!", Toast.LENGTH_SHORT).show()
+			overclockReady = true
+
+			// Set recharge bar text
+			if (currentPage == R.id.home_button) {
+				val overclockText =fragmentView.getFragment<HomeScreen>().binding.overclockText
+				overclockText.text = resources.getString(R.string.Overclock_Charged)
+			}
+		}, {
+			if (currentPage == R.id.home_button) {
+				val overclockBar = fragmentView.getFragment<HomeScreen>().binding.overclockBar
+				overclockBar.progress = ((100*timePassed)/rechargeTime).toInt()
+				timePassed += interval
+			}
+		}, rechargeTime, interval)
 	}
 
 	private fun runAtDelay(task: () -> Unit, delay: Long): Timer {
@@ -140,6 +195,23 @@ class MainActivity : AppCompatActivity() {
 		)
 
 		return timer
+	}
+
+	private fun runTimer(onFinish: () -> Unit, onTick: () -> Unit, delay: Long, interval: Long): CountDownTimer {
+		val mCountDownTimer =
+			object : CountDownTimer(delay, interval) {
+				override fun onTick(millisUntilFinished: Long) {
+					onTick()
+				}
+
+				override fun onFinish() {
+					onFinish()
+				}
+			}
+
+		mCountDownTimer.start()
+
+		return mCountDownTimer
 	}
 
 	private val sensorListener: SensorEventListener = object : SensorEventListener {

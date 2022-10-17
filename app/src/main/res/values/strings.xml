@@ -15,4 +15,7 @@
     <string name="Overclock_Stats_Boost_Multiplier">%d%% ฿ boost on overclock</string>
     <string name="Overclock_Stats_Boost_Cooldown">-%d%% overclock cooldown</string>
     <string name="Overclock_Stats_Boost_Additive">%s ฿/s on overclock</string>
+    <string name="Overclock_Charging">Overclock Charging...</string>
+    <string name="Overclock_Charged">Overclock Ready!</string>
+    <string name="Overclock_Active">Overclock Active...</string>
 </resources>

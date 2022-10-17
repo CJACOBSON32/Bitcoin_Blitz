@@ -25,7 +25,7 @@ import info.cs4518.bitcoinblitz.databinding.FragmentHomeScreenBinding
 class HomeScreen : Fragment() {
 	private val TAG = "HOME_FRAGMENT";
 
-	private lateinit var binding: FragmentHomeScreenBinding
+	lateinit var binding: FragmentHomeScreenBinding
 
 	lateinit var viewModel: PlayerViewModel
 

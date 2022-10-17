@@ -30,6 +30,7 @@ class Database(val viewModel: PlayerViewModel) {
 
 							viewModel.upgrades.upgradeMap[id]?.numOwned = numOwned
 						}
+						viewModel.upgrades.recalculateAll()
 					} else {
 						backupData()
 					}
