@@ -1,36 +1,27 @@
 package info.cs4518.bitcoinblitz.upgrades
 
+import android.app.Application
 import android.util.Log
-import com.google.firebase.firestore.FirebaseFirestoreSettings
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.firestoreSettings
-import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import info.cs4518.bitcoinblitz.PlayerViewModel
+import info.cs4518.bitcoinblitz.R
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 
-class UpgradeTracker(val viewModel: PlayerViewModel) {
-
-	val db = Firebase.firestore
+class UpgradeTracker(val viewModel: PlayerViewModel, val application: Application) {
 
 	val activeUpgrades: MutableList<ActiveUpgrade> = ArrayList()
 	val passiveUpgrades: MutableList<PassiveUpgrade> = ArrayList()
 	val overclockUpgrades: MutableList<OverclockUpgrade> = ArrayList()
 
 	val allUpgrades get() = activeUpgrades + passiveUpgrades + overclockUpgrades
+	val upgradeMap = HashMap<Int, Upgrade>()
 
-	private fun setUp(){
-		val dbSettings = firestoreSettings { isPersistenceEnabled = true }
-		db.firestoreSettings = dbSettings
-		val cSettings = firestoreSettings {
-			cacheSizeBytes = FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED
-		}
-		db.firestoreSettings = cSettings
-		docReference()
+	init {
+		loadUpgrades(application.resources.openRawResource(R.raw.upgrades))
 	}
 
 	fun buy(upgrade: Upgrade) {
@@ -56,7 +47,7 @@ class UpgradeTracker(val viewModel: PlayerViewModel) {
 
 	}
 
-	public fun recalculateAll() {
+	fun recalculateAll() {
 		recalculateActive()
 		recalculatePassive()
 		recalculateOverclock()
@@ -90,6 +81,10 @@ class UpgradeTracker(val viewModel: PlayerViewModel) {
 		val overclockListType = object : TypeToken<List<OverclockUpgrade>>() {}.type
 		overclockUpgrades.addAll(g.fromJson(overclock.toString(), overclockListType))
 
+		// Build upgrade hashmap
+		for (upgrade in allUpgrades)
+			upgradeMap[upgrade.id] = upgrade
+
 		return allUpgrades
 	}
 
@@ -103,21 +98,5 @@ class UpgradeTracker(val viewModel: PlayerViewModel) {
 		}
 		reader.close()
 		return sb.toString()
-	}
-
-	private fun docReference(){
-		val allUpgradesRef = db.collection("Upgrades").document()
-	}
-
-	fun incrementUpgrade(upgrade: Upgrade){
-
-	}
-
-	fun getPassiveIncome(): Float {
-		val allPassiveUpgrades = db.collection("Upgrades")
-//		allPassiveUpgrades.whereArrayContains()
-
-		var sum = 0f
-		return sum
 	}
 }

@@ -2,11 +2,14 @@ package info.cs4518.bitcoinblitz.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.constraintlayout.motion.widget.Debug
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.installations.FirebaseInstallations
 import info.cs4518.bitcoinblitz.PlayerViewModel
 import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.databinding.ActivityMainBinding
@@ -57,9 +60,6 @@ class MainActivity : AppCompatActivity() {
 			true
 		}
 
-		// Initialize upgrades
-		viewModel.upgrades.loadUpgrades(resources.openRawResource(R.raw.upgrades))
-
 		// Set bitcoin to increment in the background every second
 		val backgroundBitcoin = Timer()
 		backgroundBitcoin.scheduleAtFixedRate(
@@ -73,6 +73,11 @@ class MainActivity : AppCompatActivity() {
 		)
 	}
 
+	override fun onPause() {
+		super.onPause()
+
+		viewModel.database.backupData()
+	}
 
 	private fun switchScreen(fragment: Fragment) {
 		supportFragmentManager.beginTransaction()
