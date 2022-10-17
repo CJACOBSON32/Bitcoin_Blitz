@@ -2,7 +2,6 @@ package info.cs4518.bitcoinblitz.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.Observer
@@ -13,7 +12,6 @@ import info.cs4518.bitcoinblitz.R
 import info.cs4518.bitcoinblitz.databinding.ActivityMainBinding
 import info.cs4518.bitcoinblitz.ui.shop.StoreScreen
 import info.cs4518.bitcoinblitz.ui.stats.StatScreen
-import info.cs4518.bitcoinblitz.workmanager.IncomeWorkerScheduler
 import java.util.*
 
 val TAG = "MAINACTIVITY"
@@ -33,8 +31,6 @@ class MainActivity : AppCompatActivity() {
 		binding = ActivityMainBinding.inflate(layoutInflater)
 		val view = binding.root
 		setContentView(view)
-
-		startWorkManager()
 
 		// Get Viewmodel
 		viewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
@@ -82,9 +78,5 @@ class MainActivity : AppCompatActivity() {
 		supportFragmentManager.beginTransaction()
 			.replace(R.id.currentView, fragment)
 			.commit()
-	}
-
-	private fun startWorkManager(){
-		IncomeWorkerScheduler.refreshPeriodicWork(this)
 	}
 }
