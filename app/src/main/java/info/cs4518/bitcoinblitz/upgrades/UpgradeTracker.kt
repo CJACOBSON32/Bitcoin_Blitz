@@ -46,7 +46,7 @@ class UpgradeTracker(val viewModel: PlayerViewModel, val application: Applicatio
 		for (upgrade in overclockUpgrades) {
 			if (upgrade.numOwned > 0) {
 				stats.cooldownMultiplier *= 1/(upgrade.cooldownMultiplier*upgrade.numOwned)
-				stats.boostMultiplier += 1-(upgrade.boostMultiplier*upgrade.numOwned)
+				stats.boostMultiplier += upgrade.boostMultiplier*upgrade.numOwned - 1
 				stats.boostAdditive += upgrade.boostAdditive*upgrade.numOwned
 			}
 		}
