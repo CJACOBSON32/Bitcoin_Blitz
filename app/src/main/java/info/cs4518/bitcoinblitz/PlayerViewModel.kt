@@ -25,6 +25,12 @@ class PlayerViewModel(application: Application): AndroidViewModel(application) {
 	val upgrades = UpgradeTracker(this, application)
 
 	val database = Database(this)
+
+	var overclockState = OverclockState.CHARGING
+
+	enum class OverclockState {
+		READY, CHARGING, ACTIVE
+	}
 }
 
 

@@ -7,6 +7,7 @@ import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import info.cs4518.bitcoinblitz.PlayerViewModel
 import info.cs4518.bitcoinblitz.upgrades.Upgrade
+import kotlin.math.pow
 
 class Database(val viewModel: PlayerViewModel) {
 	init {
@@ -28,7 +29,9 @@ class Database(val viewModel: PlayerViewModel) {
 							val id = (map["id"] as Long).toInt()
 							val numOwned = (map["numOwned"] as Long).toInt()
 
-							viewModel.upgrades.upgradeMap[id]?.numOwned = numOwned
+							val currentUpgrade = viewModel.upgrades.upgradeMap[id]
+							currentUpgrade?.numOwned = numOwned
+							currentUpgrade?.cost = (currentUpgrade!!.cost * (1.1).pow(numOwned)).toLong()
 						}
 						viewModel.upgrades.recalculateAll()
 					} else {

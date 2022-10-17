@@ -7,7 +7,6 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -44,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 	private var currentAcceleration = 0f
 	private var lastAcceleration = 0f
 
-	private var overclockReady = false
 	private var currentPage = R.id.home_button
 	private var overclockStartTime = LocalTime.now()
 
@@ -115,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	fun triggerOverclock() {
-		overclockReady = false
+		viewModel.overclockState = PlayerViewModel.OverclockState.ACTIVE
 		Toast.makeText(applicationContext, "Overclock activated", Toast.LENGTH_SHORT).show()
 
 		val clockStats = viewModel.upgrades.getOverclockStats()
@@ -138,15 +136,15 @@ class MainActivity : AppCompatActivity() {
 		val overClockTime: Long = 10000
 		var timeLeft: Long = overClockTime
 		runTimer({
-			Looper.prepare()
 			viewModel.clickPotency = oldPotency
 			viewModel.bitcoinPerSecond = oldBPS
 			Toast.makeText(applicationContext, "Overclock Finished", Toast.LENGTH_SHORT).show()
 
 			// Set recharge bar text
 			if (currentPage == R.id.home_button) {
-				val overclockText =fragmentView.getFragment<HomeScreen>().binding.overclockText
-				overclockText.text = resources.getString(R.string.Overclock_Charging)
+				val fragBinding = fragmentView.getFragment<HomeScreen>().binding
+				fragBinding.overclockText.text = resources.getString(R.string.Overclock_Charging)
+				fragBinding.overclockBar.progress = 0
 			}
 
 			chargeOverclock(clockStats)
@@ -154,33 +152,36 @@ class MainActivity : AppCompatActivity() {
 			if (currentPage == R.id.home_button) {
 				val overclockBar =fragmentView.getFragment<HomeScreen>().binding.overclockBar
 				overclockBar.progress = ((100*timeLeft)/overClockTime).toInt()
-				timeLeft -= interval
 			}
+
+			timeLeft -= interval
 		}, overClockTime, interval)
 	}
 
 	private fun chargeOverclock(clockStats: UpgradeTracker.OverclockStats): CountDownTimer {
-		val rechargeTime = (10000 * clockStats.cooldownMultiplier).toLong()
+		val rechargeTime = (300000 * clockStats.cooldownMultiplier).toLong()
 		Toast.makeText(applicationContext,
 			"Overclock will recharge in ${rechargeTime/1000}s", Toast.LENGTH_SHORT).show()
+		viewModel.overclockState = PlayerViewModel.OverclockState.CHARGING
 
 		var timePassed: Long = 0
 		val interval: Long = 250
 		return runTimer({
 			Toast.makeText(applicationContext, "Overclock charged!", Toast.LENGTH_SHORT).show()
-			overclockReady = true
+			viewModel.overclockState = PlayerViewModel.OverclockState.READY
 
 			// Set recharge bar text
 			if (currentPage == R.id.home_button) {
-				val overclockText =fragmentView.getFragment<HomeScreen>().binding.overclockText
-				overclockText.text = resources.getString(R.string.Overclock_Charged)
+				val fragBinding = fragmentView.getFragment<HomeScreen>().binding
+				fragBinding.overclockText.text = resources.getString(R.string.Overclock_Charged)
+				fragBinding.overclockBar.progress = 100
 			}
 		}, {
 			if (currentPage == R.id.home_button) {
 				val overclockBar = fragmentView.getFragment<HomeScreen>().binding.overclockBar
 				overclockBar.progress = ((100*timePassed)/rechargeTime).toInt()
-				timePassed += interval
 			}
+			timePassed += interval
 		}, rechargeTime, interval)
 	}
 
@@ -231,7 +232,7 @@ class MainActivity : AppCompatActivity() {
 
 			// Display a Toast message if
 			// acceleration value is over 12
-			if (acceleration > 12 && overclockReady) {
+			if (acceleration > 12 && viewModel.overclockState == PlayerViewModel.OverclockState.READY) {
 				triggerOverclock()
 			}
 		}
