@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Looper
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -111,6 +112,7 @@ class MainActivity : AppCompatActivity() {
 		viewModel.bitcoinPerSecond += clockStats.boostAdditive
 
 		runAtDelay({
+			Looper.prepare()
 			viewModel.clickPotency = oldPotency
 			viewModel.bitcoinPerSecond = oldBPS
 			Toast.makeText(applicationContext, "Overclock Finished", Toast.LENGTH_SHORT).show()
@@ -120,6 +122,7 @@ class MainActivity : AppCompatActivity() {
 				"Overclock will recharge in ${rechargeTime/1000}s", Toast.LENGTH_SHORT).show()
 
 			runAtDelay({
+				Looper.prepare()
 				Toast.makeText(applicationContext, "Overclock charged", Toast.LENGTH_SHORT).show()
 				overclockReady = true
 			}, rechargeTime)

@@ -33,7 +33,7 @@ class UpgradeTracker(val viewModel: PlayerViewModel, val application: Applicatio
 	}
 
 	private fun recalculateActive() {
-		viewModel.clickPotency = activeUpgrades.sumOf { it.clickPotencyAdditive*it.numOwned }
+		viewModel.clickPotency = 1 + activeUpgrades.sumOf { it.clickPotencyAdditive*it.numOwned }
 	}
 
 	private fun recalculatePassive() {
@@ -41,12 +41,12 @@ class UpgradeTracker(val viewModel: PlayerViewModel, val application: Applicatio
 	}
 
 	fun getOverclockStats(): OverclockStats {
-		val stats = OverclockStats(1f, 0f, 2)
+		val stats = OverclockStats(1f, 1f, 2)
 
 		for (upgrade in overclockUpgrades) {
-			stats.cooldownMultiplier *= 1/upgrade.cooldownMultiplier
-			stats.boostMultiplier += 1-upgrade.boostMultiplier
-			stats.boostAdditive += upgrade.boostAdditive
+			stats.cooldownMultiplier *= 1/(upgrade.cooldownMultiplier*upgrade.numOwned)
+			stats.boostMultiplier += 1-(upgrade.boostMultiplier*upgrade.numOwned)
+			stats.boostAdditive += upgrade.boostAdditive*upgrade.numOwned
 		}
 
 		return stats

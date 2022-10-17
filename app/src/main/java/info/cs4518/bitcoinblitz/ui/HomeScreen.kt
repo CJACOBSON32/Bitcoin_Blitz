@@ -55,6 +55,8 @@ class HomeScreen : Fragment() {
 		// Clickevent for bitcoin button
 		binding.bitcoinButton.setOnClickListener {
 			viewModel.wallet.value = viewModel.wallet.value?.plus(viewModel.clickPotency)
+
+			Log.d(TAG, "Clickpotency = ${viewModel.clickPotency}")
 		}
 
 		// Inflate the layout for this fragment
