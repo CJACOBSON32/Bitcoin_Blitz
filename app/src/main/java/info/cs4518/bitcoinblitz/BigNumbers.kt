@@ -13,7 +13,7 @@ class BigNumbers {
 			} else if (long >= 10f.pow(9)) { // Billions
 				val divided = long/10.0.pow(9)
 				return String.format("%.2fB", divided)
-			} else if (long >= 10f.pow(8)) { // Millions
+			} else if (long >= 10f.pow(7)) { // Millions
 				val divided = long/10.0.pow(6)
 				return String.format("%.2fM", divided)
 			}else {
