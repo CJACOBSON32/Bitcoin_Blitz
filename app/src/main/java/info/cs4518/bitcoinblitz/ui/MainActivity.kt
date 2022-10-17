@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
 		// Get Viewmodel
 		viewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
+		viewModel.activity = this
 
 		// Sync LiveData with viewmodel
 		viewModel.wallet.value = viewModel.bitcoinCount
@@ -106,10 +107,6 @@ class MainActivity : AppCompatActivity() {
 				}
 			}, 0, 1000
 		)
-
-		// Start overclock recharging initially
-		val clockStats = viewModel.upgrades.getOverclockStats()
-		chargeOverclock(clockStats)
 	}
 
 	fun triggerOverclock() {
@@ -158,7 +155,7 @@ class MainActivity : AppCompatActivity() {
 		}, overClockTime, interval)
 	}
 
-	private fun chargeOverclock(clockStats: UpgradeTracker.OverclockStats): CountDownTimer {
+	fun chargeOverclock(clockStats: UpgradeTracker.OverclockStats): CountDownTimer {
 		val rechargeTime = (300000 * clockStats.cooldownMultiplier).toLong()
 		Toast.makeText(applicationContext,
 			"Overclock will recharge in ${rechargeTime/1000}s", Toast.LENGTH_SHORT).show()

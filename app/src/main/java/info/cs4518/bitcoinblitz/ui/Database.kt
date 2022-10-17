@@ -37,6 +37,10 @@ class Database(val viewModel: PlayerViewModel) {
 					} else {
 						backupData()
 					}
+
+					// Start overclock recharging initially
+					val clockStats = viewModel.upgrades.getOverclockStats()
+					viewModel.activity!!.chargeOverclock(clockStats)
 				}
 		}
 	}
